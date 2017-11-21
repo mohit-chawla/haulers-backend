@@ -1,10 +1,14 @@
-# haulers-backend
+# haulers-backend [![CircleCI](https://circleci.com/gh/mohit-chawla/haulers-backend.svg?style=svg)](https://circleci.com/gh/mohit-chawla/haulers-backend)
 Backend for haulers app
 
-## Features :
+## Functionality Features :
   
    - Feature 1
    - Feature 2
+
+## Project Features
+   - Self generating API docs
+
 
 ## Installation :
    - Feature 1
