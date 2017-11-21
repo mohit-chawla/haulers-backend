@@ -8,6 +8,7 @@ Backend for haulers app
 
 ## Project Features
    - Self generating API docs
+   - Continuous integrations using Circle CI
 
 
 ## Installation :
