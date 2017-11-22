@@ -2,6 +2,8 @@ package edu.cornell.haulers.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -15,6 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * All bean configurations here.
  */
 @Configuration
+@PropertySources(value={@PropertySource("classpath:application.properties"),@PropertySource("classpath:email.properties")})
 @EnableSwagger2
 public class HaulersConfiguration {
 	
