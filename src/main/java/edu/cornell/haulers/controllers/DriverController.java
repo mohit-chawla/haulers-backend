@@ -11,23 +11,26 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.cornell.haulers.constants.HttpMappings;
 import edu.cornell.haulers.entity.DriverEntity;
 import edu.cornell.haulers.exceptions.HaulersException;
+import edu.cornell.haulers.exceptions.HaulersExceptionHandlers;
 import edu.cornell.haulers.services.DriverService;
 
 @RestController
-public class DriverController {
-	
+public class DriverController extends HaulersExceptionHandlers{
+
 	@Autowired
 	DriverService driverService;
-	
-	@RequestMapping(value=HttpMappings.DRIVER,method=RequestMethod.GET)
-	public ResponseEntity<DriverEntity> getDriverController(@RequestParam(name="email",required=true)String email) throws HaulersException{
-		return ResponseEntity.ok().body(driverService.getDriverDetailsByEmail(email)) ;
+
+	@RequestMapping(value = HttpMappings.DRIVER, method = RequestMethod.GET)
+	public ResponseEntity<DriverEntity> getDriverController(@RequestParam(name = "email", required = true) String email)
+			throws HaulersException {
+		return ResponseEntity.ok().body(driverService.getDriverDetailsByEmail(email));
 	}
-	
-	@RequestMapping(value=HttpMappings.DRIVER,method=RequestMethod.POST)
-	public ResponseEntity<DriverEntity> addDriverController(@RequestBody(required=true)DriverEntity driver) throws HaulersException{
+
+	@RequestMapping(value = HttpMappings.DRIVER, method = RequestMethod.POST)
+	public ResponseEntity<DriverEntity> addDriverController(@RequestBody(required = true) DriverEntity driver)
+			throws HaulersException {
 		driverService.addDriver(driver);
-		return ResponseEntity.ok().body(null) ;
+		return ResponseEntity.ok().body(null);
 	}
-}
 	
+}

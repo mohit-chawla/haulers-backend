@@ -4,14 +4,16 @@ package edu.cornell.haulers.exceptions;
  * @author mohitchawla
  *
  */
-public class HaulersException extends Exception{
-	ErrorMessage message;
+public class HaulersException extends Exception {
+	ErrorMessage errorMessage;
 
-	public HaulersException(ErrorMessage message) {
+	public HaulersException(ErrorMessage errorMessage) {
 		super();
-		this.message = message;
+		this.errorMessage = errorMessage;
 	}
 
-	
-	
+	public ErrorMessage getErrorMessage() {
+		return errorMessage;
+	}
+
 }
