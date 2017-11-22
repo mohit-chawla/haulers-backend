@@ -27,7 +27,7 @@ public class EmailService {
 	 * @param body
 	 * @throws Exception
 	 */
-	private void sendEmail(EmailEntity entity) throws Exception {
+	public void sendEmail(EmailEntity entity) throws Exception {
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		helper.setTo(entity.getReceiverEmail());

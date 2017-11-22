@@ -21,4 +21,19 @@ public class ErrorMessage {
 		this.details = details;
 	}
 	
+	
+
+	public String getMessage() {
+		return message;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	@Override
+	public String toString() {
+		return "ErrorMessage [message=" + message + ", details=" + details + "]";
+	}
+	
 }

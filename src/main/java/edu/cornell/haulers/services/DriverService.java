@@ -1,5 +1,6 @@
 package edu.cornell.haulers.services;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,8 @@ public class DriverService {
 
 	public void addDriver(DriverEntity driver) throws HaulersException {
 		try{
+			ObjectId id = new ObjectId();
+			driver.setId(id);
 			driverRepository.insert(driver);
 		}
 		catch(Exception e){

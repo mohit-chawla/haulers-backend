@@ -1,11 +1,12 @@
 package edu.cornell.haulers.entity;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class UserEntity {
 	
 	@Id
-	private Integer id;
+	private ObjectId id;
 	
 	private String email;
 	
@@ -15,11 +16,11 @@ public class UserEntity {
 	
 	private String phone;
 
-	public Integer getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 
