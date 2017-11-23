@@ -2,11 +2,13 @@ package edu.cornell.haulers.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import edu.cornell.haulers.constants.DatabaseMappings;
+
 /**
  * @author mohitchawla
  *
  */
-@Document(collection="edu_cornell_haulers_drivers")
+@Document(collection = DatabaseMappings.DB_DRIVERS)
 public class DriverEntity extends UserEntity {
 
 	private Integer rating;

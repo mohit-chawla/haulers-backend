@@ -15,7 +15,7 @@ import edu.cornell.haulers.exceptions.HaulersExceptionHandlers;
 import edu.cornell.haulers.services.DriverService;
 
 @RestController
-public class DriverController extends HaulersExceptionHandlers{
+public class DriverController extends HaulersExceptionHandlers {
 
 	@Autowired
 	DriverService driverService;
@@ -32,5 +32,5 @@ public class DriverController extends HaulersExceptionHandlers{
 		driverService.addDriver(driver);
 		return ResponseEntity.ok().body(null);
 	}
-	
+
 }

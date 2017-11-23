@@ -11,29 +11,27 @@ import edu.cornell.haulers.repositories.DriverRepository;
 
 @Service
 public class DriverService {
-	
+
 	@Autowired
 	DriverRepository driverRepository;
-	
+
 	public DriverEntity getDriverDetailsByEmail(String email) throws HaulersException {
 		DriverEntity driver = driverRepository.findByEmail(email);
-		if(driver!=null){
+		if (driver != null) {
 			return driver;
-		}else{
+		} else {
 			throw new HaulersException(new ErrorMessage("Driver Not Found!"));
 		}
 	}
 
 	public void addDriver(DriverEntity driver) throws HaulersException {
-		try{
+		try {
 			ObjectId id = new ObjectId();
 			driver.setId(id);
 			driverRepository.insert(driver);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			throw new HaulersException(new ErrorMessage("Driver cannot be added"));
 		}
 	}
 
-	
 }
