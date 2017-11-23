@@ -2,17 +2,17 @@
 Backend for haulers app
 
 ## Functionality Features :
-  
    - Feature 1
    - Feature 2
 
 ## Project Features
    - Self generating API docs
    - Continuous integrations using Circle CI
+   - Developer email alerts on exceptions
 
 
 ## Installation :
-   - Feature 1
+   - set ennvironment variables HAULERS_EMAIL and HAULERS_PASS with gmail username and password
    - Feature 2
 
 ## API Resources
