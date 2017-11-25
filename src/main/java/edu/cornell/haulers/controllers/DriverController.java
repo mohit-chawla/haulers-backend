@@ -1,5 +1,7 @@
 package edu.cornell.haulers.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,12 @@ public class DriverController extends HaulersExceptionHandlers {
 	public ResponseEntity<DriverEntity> getDriverController(@RequestParam(name = "email", required = true) String email)
 			throws HaulersException {
 		return ResponseEntity.ok().body(driverService.getDriverDetailsByEmail(email));
+	}
+	
+	@RequestMapping(value = HttpMappings.DRIVER+"/all", method = RequestMethod.GET)
+	public ResponseEntity<List<DriverEntity>> getAllDriversController()
+			throws HaulersException {
+		return ResponseEntity.ok().body(driverService.getAllDrivers());
 	}
 
 	@RequestMapping(value = HttpMappings.DRIVER, method = RequestMethod.POST)

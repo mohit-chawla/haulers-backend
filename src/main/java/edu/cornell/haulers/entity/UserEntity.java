@@ -3,17 +3,24 @@ package edu.cornell.haulers.entity;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+/**
+ * @author mohitchawla
+ *
+ */
 public class UserEntity {
-	
+
 	@Id
+	@JsonIgnore
 	private ObjectId id;
-	
+
 	private String email;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	private String phone;
 
 	public ObjectId getId() {
@@ -55,5 +62,5 @@ public class UserEntity {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 }

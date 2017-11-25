@@ -5,6 +5,8 @@ import java.util.Date;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author mohitchawla
  *
@@ -12,6 +14,7 @@ import org.springframework.data.annotation.Id;
 public class JobRequest {
 
 	@Id
+	@JsonIgnore
 	private ObjectId id;
 
 	Integer capacity;

@@ -1,5 +1,7 @@
 package edu.cornell.haulers.services;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,14 @@ public class CustomerService {
 		} catch (Exception e) {
 			throw new HaulersException(new ErrorMessage("Customer cannot be added"));
 		}
+	}
+
+	public List<CustomerEntity> getAllCustomers() throws HaulersException {
+		List<CustomerEntity> customers = customerRepository.findAll();;
+		if(customers == null){
+			throw new HaulersException(new ErrorMessage("No customers in database!"));
+		}
+		return customers;
 	}
 
 }
