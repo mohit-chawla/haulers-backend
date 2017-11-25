@@ -34,8 +34,10 @@ public class JobController extends HaulersExceptionHandlers{
 		return ResponseEntity.ok().body(driver);
 	}
 	
-//	@RequestMapping(value="/job",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	public ResponseEntity<List<JobEntity>> getJobsController(@RequestParam(required=true)String userEmail) throws HaulersException{
-//		
-//	}
+	
+	
+	@RequestMapping(value="/job/all",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<JobEntity>> getAllJobsController() throws HaulersException{
+		return ResponseEntity.ok().body(jobService.getAllJobs());
+	}
 }

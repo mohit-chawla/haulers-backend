@@ -1,5 +1,7 @@
 package edu.cornell.haulers.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,11 @@ public class CustomerController extends HaulersExceptionHandlers {
 	public ResponseEntity<CustomerEntity> getCustomerController(
 			@RequestParam(name = "email", required = true) String email) throws HaulersException {
 		return ResponseEntity.ok().body(customerService.getCustomerDetailsByEmail(email));
+	}
+	
+	@RequestMapping(value = HttpMappings.CUSTOMER+"/all", method = RequestMethod.GET)
+	public ResponseEntity<List<CustomerEntity>> getAllCustomersController() throws HaulersException {
+		return ResponseEntity.ok().body(customerService.getAllCustomers());
 	}
 
 	@RequestMapping(value = HttpMappings.CUSTOMER, method = RequestMethod.POST)

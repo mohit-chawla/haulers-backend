@@ -49,6 +49,14 @@ public class JobService {
 			return chosenDriver;
 		}
 	}
+	
+	public List<JobEntity> getAllJobs() throws HaulersException{
+		List<JobEntity> jobs = jobsRepository.findAll();
+		if(jobs == null){
+			throw new HaulersException(new ErrorMessage("No job matching exist in databse"));
+		}
+		return jobs;
+	}
 
 	
 }
