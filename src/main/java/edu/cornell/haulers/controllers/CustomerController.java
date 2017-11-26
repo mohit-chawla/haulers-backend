@@ -3,6 +3,7 @@ package edu.cornell.haulers.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class CustomerController extends HaulersExceptionHandlers {
 	@Autowired
 	CustomerService customerService;
 
-	@RequestMapping(value = HttpMappings.CUSTOMER, method = RequestMethod.GET)
+	@RequestMapping(value = HttpMappings.CUSTOMER, method = RequestMethod.GET,consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<CustomerEntity> getCustomerController(
 			@RequestParam(name = "email", required = true) String email) throws HaulersException {
 		return ResponseEntity.ok().body(customerService.getCustomerDetailsByEmail(email));
