@@ -4,19 +4,23 @@
 #
 
 machine:
-  environment:
-    REDIS_URL: redis://localhost:6379
+  services:
+    - redis
+
 dependencies:
   pre:
-    - wget http://download.redis.io/releases/redis-3.2.0.tar.gz
-    - tar xzf redis-3.2.0.tar.gz
-    - cd redis-3.2.0 && make
-  cache_directories:
-    - redis-3.2.0
-test:
-  pre:
     - sudo service redis-server stop
-    - ./redis-3.2.0/src/redis-server --port 6379 --daemonize yes
+    - >
+      cd ~ && if [ ! -d "redis-3.2.5" ]; then
+        wget http://download.redis.io/releases/redis-3.2.5.tar.gz
+        tar xzf redis-3.2.5.tar.gz
+        cd redis-3.2.5 && make;
+      fi
+    - cd ~/redis-3.2.5 && sudo make install
+    - sudo sed -i 's/bin/local\/bin/g' /etc/init/redis-server.conf
+    - sudo service redis-server start
+  cache_directories:
+    - ~/redis-3.2.5
 
 version: 2
 jobs:
