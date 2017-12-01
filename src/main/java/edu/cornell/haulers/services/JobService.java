@@ -19,20 +19,20 @@ public class JobService {
 
 	@Autowired
 	DriverRepository driverRepository;
-	
+
 	@Autowired
 	JobsRepository jobsRepository;
-	
-	public DriverEntity addNewJob(String userEmail, JobRequest jobRequest) throws HaulersException {
-		//Find a driver
-		//match them
-		//TODO: what if no driver can be found
+
+	public DriverEntity addNewJob(String customerEmail, JobRequest jobRequest) throws HaulersException {
+		// Find a driver
+		// match them
+		// TODO: what if no driver can be found
 		// return the match
 		List<DriverEntity> availableDrivers = driverRepository.findByAvailableTrue();
-		if(availableDrivers.isEmpty()){
+		if (availableDrivers.isEmpty()) {
 			throw new HaulersException(new ErrorMessage("No Driver available!"));
-		}else{
-			//create new job entitiy;
+		} else {
+			// create new job entitiy;
 			DriverEntity chosenDriver = availableDrivers.get(0);
 			JobEntity entity = new JobEntity();
 			entity.setCapacity(jobRequest.getCapacity());
@@ -41,22 +41,43 @@ public class JobService {
 			entity.setStart(jobRequest.getStart());
 			entity.setEnd(jobRequest.getEnd());
 			entity.setId(new ObjectId());
-			entity.setUserEmail(userEmail);
-			entity.setDriverEmail(chosenDriver.getEmail()); //TODO: replace with better matching
+			entity.setCustomerEmail(customerEmail);
+			entity.setDriverEmail(chosenDriver.getEmail()); // TODO: replace
+															// with better
+															// matching
 			jobsRepository.save(entity);
 			chosenDriver.setAvailable(false);
 			driverRepository.save(chosenDriver);
 			return chosenDriver;
 		}
 	}
-	
-	public List<JobEntity> getAllJobs() throws HaulersException{
+
+	public List<JobEntity> getAllJobs() throws HaulersException {
 		List<JobEntity> jobs = jobsRepository.findAll();
-		if(jobs == null){
+		if (jobs == null) {
 			throw new HaulersException(new ErrorMessage("No job matching exist in databse"));
 		}
 		return jobs;
 	}
 
-	
+	public List<JobEntity> getCustomerJobs(String customerEmail, String typeFilter) throws HaulersException {
+		List<JobEntity> jobs = jobsRepository.findByCustomerEmail(customerEmail);
+		if (jobs == null) {
+			throw new HaulersException(new ErrorMessage("No jobs for this customer"));
+		} else {
+			return jobs;
+		}
+
+	}
+
+	public List<JobEntity> getDriverJobs(String driverEmail, String typeFilter) throws HaulersException {
+		List<JobEntity> jobs = jobsRepository.findByDriverEmail(driverEmail);
+		if (jobs == null) {
+			throw new HaulersException(new ErrorMessage("No jobs for this driver"));
+		} else {
+			return jobs;
+		}
+
+	}
+
 }
