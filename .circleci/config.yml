@@ -2,6 +2,11 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
+
+machine:
+  services:
+    - redis
+
 version: 2
 jobs:
   build:
