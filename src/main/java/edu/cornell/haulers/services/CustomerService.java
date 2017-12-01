@@ -44,4 +44,13 @@ public class CustomerService {
 		return customers;
 	}
 
+	public void updateCustomerLocation(String email, double[] newLocation) throws HaulersException {
+		CustomerEntity customer = customerRepository.findByEmail(email);
+		if(customer == null){
+			throw new HaulersException(new ErrorMessage("Requested customer not found!", email));
+		}
+		customer.setLocation(newLocation);
+		customerRepository.save(customer);		
+	}
+
 }

@@ -2,6 +2,7 @@ package edu.cornell.haulers.entity;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -14,7 +15,8 @@ public class UserEntity {
 	@Id
 	@JsonIgnore
 	private ObjectId id;
-
+	
+	@Indexed(unique=true)
 	private String email;
 
 	private String firstName;
@@ -22,6 +24,9 @@ public class UserEntity {
 	private String lastName;
 
 	private String phone;
+	
+	@Indexed
+	private double[] location;
 
 	public ObjectId getId() {
 		return id;
@@ -61,6 +66,14 @@ public class UserEntity {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	
+	public double[] getLocation() {
+		return location;
+	}
+
+	public void setLocation(double[] location) {
+		this.location = location;
 	}
 
 }
