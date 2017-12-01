@@ -7,9 +7,6 @@ machine:
   services:
     - redis
 
-dependencies:
-  override:
-    - sudo service redis-server status || sudo service redis-server start
 
 version: 2
 jobs:
@@ -38,6 +35,12 @@ jobs:
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+      - run:
+          name: Install redis
+          command: sudo apt-get install redis-server
+       - run:
+          name: Start redis-server
+          command: sudo service redis-server start    
 
       - run: mvn dependency:go-offline
 
@@ -47,4 +50,4 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
         
       # run tests!
-      - run: mvn integration-test
+      - run: mvn test
