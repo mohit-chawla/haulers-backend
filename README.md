@@ -51,5 +51,5 @@ Response body:
    [Kripa]: https://github.com/coderKr
    [project]: https://github.com/mohit-chawla/haulers-backend
    [4]: http://revolunet.mit-license.org
-   [mogndb]: https://www.mongodb.com
+   [mongodb]: https://www.mongodb.com
    [redis]: https://redis.io

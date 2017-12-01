@@ -23,21 +23,64 @@ import edu.cornell.haulers.services.JobService;
  *
  */
 @RestController
-public class JobController extends HaulersExceptionHandlers{
-	
+public class JobController extends HaulersExceptionHandlers {
+
 	@Autowired
 	JobService jobService;
-	
-	@RequestMapping(value="/job",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<DriverEntity> postNewJobController(@RequestParam(required=true)String userEmail,@RequestBody(required=true) JobRequest jobRequest) throws HaulersException{
-		DriverEntity driver = jobService.addNewJob(userEmail,jobRequest);
+
+	/**
+	 * Request to add a new job in the system
+	 * 
+	 * @param userEmail
+	 * @param jobRequest
+	 * @return
+	 * @throws HaulersException
+	 */
+	@RequestMapping(value = "/job", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<DriverEntity> postNewJobController(@RequestParam(required = true) String userEmail,
+			@RequestBody(required = true) JobRequest jobRequest) throws HaulersException {
+		DriverEntity driver = jobService.addNewJob(userEmail, jobRequest);
 		return ResponseEntity.ok().body(driver);
 	}
-	
-	
-	
-	@RequestMapping(value="/job/all",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<JobEntity>> getAllJobsController() throws HaulersException{
+
+	/**
+	 * Get all jobs
+	 * 
+	 * @return
+	 * @throws HaulersException
+	 */
+	@RequestMapping(value = "/job/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<JobEntity>> getAllJobsController() throws HaulersException {
 		return ResponseEntity.ok().body(jobService.getAllJobs());
 	}
+
+	/**
+	 * Get jobs for a customer
+	 * 
+	 * @param customerEmail
+	 * @param typeFilter
+	 * @return
+	 * @throws HaulersException
+	 */
+	@RequestMapping(value = "/job/customer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<JobEntity>> getCustomerJobsController(
+			@RequestParam(required = true) String customerEmail, @RequestParam(required = false) String typeFilter)
+			throws HaulersException {
+		return ResponseEntity.ok().body(jobService.getCustomerJobs(customerEmail, typeFilter));
+	}
+
+	/**
+	 * Get jobs for a driver
+	 * 
+	 * @param driverEmail
+	 * @param typeFilter
+	 * @return
+	 * @throws HaulersException
+	 */
+	@RequestMapping(value = "/job/driver", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<JobEntity>> getDriverJobsController(@RequestParam(required = true) String driverEmail,
+			@RequestParam(required = false) String typeFilter) throws HaulersException {
+		return ResponseEntity.ok().body(jobService.getDriverJobs(driverEmail, typeFilter));
+	}
+
 }

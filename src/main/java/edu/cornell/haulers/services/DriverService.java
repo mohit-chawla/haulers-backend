@@ -38,7 +38,7 @@ public class DriverService {
 
 	public List<DriverEntity> getAllDrivers() throws HaulersException {
 		List<DriverEntity> drivers = driverRepository.findAll();
-		if(drivers == null){
+		if (drivers == null) {
 			throw new HaulersException(new ErrorMessage("No drivers exists in databse"));
 		}
 		return drivers;

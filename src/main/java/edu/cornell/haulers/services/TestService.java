@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TestService {
-	public String testMethod(){
+	public String testMethod() {
 		return "This is testMethod in TestService";
 	}
 

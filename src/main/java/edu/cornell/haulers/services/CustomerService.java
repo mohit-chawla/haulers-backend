@@ -37,8 +37,9 @@ public class CustomerService {
 	}
 
 	public List<CustomerEntity> getAllCustomers() throws HaulersException {
-		List<CustomerEntity> customers = customerRepository.findAll();;
-		if(customers == null){
+		List<CustomerEntity> customers = customerRepository.findAll();
+		;
+		if (customers == null) {
 			throw new HaulersException(new ErrorMessage("No customers in database!"));
 		}
 		return customers;

@@ -2,6 +2,7 @@ package edu.cornell.haulers.entity;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,6 +16,7 @@ public class UserEntity {
 	@JsonIgnore
 	private ObjectId id;
 
+	@Indexed(unique = true)
 	private String email;
 
 	private String firstName;
