@@ -15,8 +15,8 @@ public class UserEntity {
 	@Id
 	@JsonIgnore
 	private ObjectId id;
-	
-	@Indexed(unique=true)
+
+	@Indexed(unique = true)
 	private String email;
 
 	private String firstName;
@@ -24,7 +24,7 @@ public class UserEntity {
 	private String lastName;
 
 	private String phone;
-	
+
 	@Indexed
 	private double[] location;
 
@@ -67,7 +67,7 @@ public class UserEntity {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	public double[] getLocation() {
 		return location;
 	}

@@ -2,6 +2,8 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
+
+
 version: 2
 jobs:
   build:
@@ -30,6 +32,8 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
+      - run: sudo apt-get install redis-server
+      - run: sudo service redis-server start
       - run: mvn dependency:go-offline
 
       - save_cache:
@@ -38,4 +42,4 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
         
       # run tests!
-      - run: mvn integration-test
+      - run: mvn test
