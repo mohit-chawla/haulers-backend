@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.cornell.haulers.entity.AuthEntity;
 import edu.cornell.haulers.entity.CustomerEntity;
 import edu.cornell.haulers.exceptions.ErrorMessage;
 import edu.cornell.haulers.exceptions.HaulersException;
@@ -16,6 +17,9 @@ public class CustomerService {
 
 	@Autowired
 	CustomerRepository customerRepository;
+	
+	@Autowired
+	AuthenticationService authenticationService;
 
 	public CustomerEntity getCustomerDetailsByEmail(String email) throws HaulersException {
 		CustomerEntity customer = customerRepository.findByEmail(email);
@@ -26,12 +30,18 @@ public class CustomerService {
 		}
 	}
 
-	public void addCustomer(CustomerEntity customer) throws HaulersException {
-		try {
-			ObjectId id = new ObjectId();
-			customer.setId(id);
-			customerRepository.insert(customer);
-		} catch (Exception e) {
+	public void addCustomer(CustomerEntity customer, String password) throws HaulersException {
+		ObjectId id = new ObjectId();
+		customer.setId(id);
+		try{
+			authenticationService.addNewAuthorisedEntrity(customer.getEmail(), password);
+		}catch(HaulersException e){
+			throw new HaulersException(new ErrorMessage("Customer cannot be added"));
+		}
+		CustomerEntity saved = customerRepository.save(customer);
+		if(saved == null){
+			//delete authorised entity
+			authenticationService.removeEntity(customer.getEmail());
 			throw new HaulersException(new ErrorMessage("Customer cannot be added"));
 		}
 	}
