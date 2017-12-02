@@ -32,7 +32,10 @@ public class JobService {
 		//match them
 		//TODO: what if no driver can be found
 		// return the match
-		List<DriverEntity> availableDrivers = driverRepository.findByLocationNearAndAvailableTrue(new Point(customerLocation[0], customerLocation[1]), new Distance(100, Metrics.KILOMETERS));
+		List<DriverEntity> availableDrivers = driverRepository.findByLocationNearAndAvailableTrue(new Point(customerLocation[0], customerLocation[1]), new Distance(10000, Metrics.KILOMETERS));
+		for(DriverEntity driver: availableDrivers) {
+			System.out.println(driver.toString());
+		}
 		if(availableDrivers.isEmpty()){
 			throw new HaulersException(new ErrorMessage("No Driver available!"));
 		} else {

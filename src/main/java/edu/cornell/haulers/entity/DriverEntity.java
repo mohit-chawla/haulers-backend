@@ -1,5 +1,7 @@
 package edu.cornell.haulers.entity;
 
+import java.util.Arrays;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import edu.cornell.haulers.constants.DatabaseMappings;
@@ -30,6 +32,13 @@ public class DriverEntity extends UserEntity {
 
 	public void setRating(Integer rating) {
 		this.rating = rating;
+	}
+
+	@Override
+	public String toString() {
+		return "DriverEntity [available=" + available + ", rating=" + rating + ", getId()=" + getId() + ", getEmail()="
+				+ getEmail() + ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName()
+				+ ", getPhone()=" + getPhone() + ", getLocation()=" + Arrays.toString(getLocation()) + "]";
 	}
 
 }

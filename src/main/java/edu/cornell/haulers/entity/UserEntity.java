@@ -2,6 +2,8 @@ package edu.cornell.haulers.entity;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,7 +27,7 @@ public class UserEntity {
 
 	private String phone;
 
-	@Indexed
+	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
 	private double[] location;
 
 	public ObjectId getId() {
