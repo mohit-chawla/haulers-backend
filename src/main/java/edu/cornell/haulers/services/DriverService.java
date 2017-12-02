@@ -28,10 +28,14 @@ public class DriverService {
 
 	public void addDriver(DriverEntity driver) throws HaulersException {
 		try {
+			double[] location  = driver.getLocation();
+			System.err.println(location[0]);
+			System.err.println(location[1]);
 			ObjectId id = new ObjectId();
 			driver.setId(id);
-			driverRepository.insert(driver);
+			driverRepository.save(driver);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new HaulersException(new ErrorMessage("Driver cannot be added"));
 		}
 	}
