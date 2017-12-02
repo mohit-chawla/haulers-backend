@@ -68,8 +68,9 @@ public class CustomerControllerTests {
 	@WithMockUser(roles = "USER")
 	public void test1AddCustomerSuccess() throws Exception {
 		CustomerEntity validCustomer = generator.getValidCustomer();
-		RequestBuilder requestBuilder = post(HttpMappings.CUSTOMER).with(csrf())
+		RequestBuilder requestBuilder = post(HttpMappings.CUSTOMER_SIGNUP).with(csrf())
 				.content(objectMapper.writeValueAsString(validCustomer))
+				.param("password", "anything")
 				.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		mvc.perform(requestBuilder).andExpect(status().is2xxSuccessful());
 	}

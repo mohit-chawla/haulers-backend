@@ -17,6 +17,9 @@ public class DriverService {
 	@Autowired
 	DriverRepository driverRepository;
 
+	@Autowired
+	AuthenticationService authenticationService;
+
 	public DriverEntity getDriverDetailsByEmail(String email) throws HaulersException {
 		DriverEntity driver = driverRepository.findByEmail(email);
 		if (driver != null) {
@@ -26,16 +29,24 @@ public class DriverService {
 		}
 	}
 
-	public void addDriver(DriverEntity driver) throws HaulersException {
+	public void addDriver(DriverEntity driver, String password) throws HaulersException {
+
 		try {
-			double[] location  = driver.getLocation();
-			System.err.println(location[0]);
-			System.err.println(location[1]);
-			ObjectId id = new ObjectId();
-			driver.setId(id);
-			driverRepository.save(driver);
-		} catch (Exception e) {
-			e.printStackTrace();
+			authenticationService.addNewAuthorisedEntrity(driver.getEmail(), password);
+		} catch (HaulersException e) {
+			// TODO: log here
+			throw new HaulersException(new ErrorMessage("Driver cannot be added"));
+		}
+		double[] location = driver.getLocation();
+		System.err.println(location[0]);
+		System.err.println(location[1]);
+		ObjectId id = new ObjectId();
+		driver.setId(id);
+		DriverEntity saved = driverRepository.save(driver);
+		if (saved == null) {
+			// TODO: log here
+			// driver was not saved, remove authentication entity
+			authenticationService.removeEntity(driver.getEmail());
 			throw new HaulersException(new ErrorMessage("Driver cannot be added"));
 		}
 	}
@@ -47,10 +58,11 @@ public class DriverService {
 		}
 		return drivers;
 	}
-	
+
 	public void updateCustomerLocation(String email, double[] newLocation) throws HaulersException {
-		DriverEntity driver = driverRepository.findByEmail(email);;
-		if(driver == null){
+		DriverEntity driver = driverRepository.findByEmail(email);
+		;
+		if (driver == null) {
 			throw new HaulersException(new ErrorMessage("No customers in database!"));
 		}
 		driver.setLocation(newLocation);

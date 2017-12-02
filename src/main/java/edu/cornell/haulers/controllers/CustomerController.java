@@ -18,36 +18,38 @@ import edu.cornell.haulers.exceptions.HaulersException;
 import edu.cornell.haulers.exceptions.HaulersExceptionHandlers;
 import edu.cornell.haulers.services.CustomerService;
 
+/**
+ * @author mohitchawla. APIs related to customer
+ */
 @RestController
 public class CustomerController extends HaulersExceptionHandlers {
 
 	@Autowired
 	CustomerService customerService;
 
-	@RequestMapping(value = HttpMappings.CUSTOMER, method = RequestMethod.GET,consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = HttpMappings.CUSTOMER, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<CustomerEntity> getCustomerController(
 			@RequestParam(name = "email", required = true) String email) throws HaulersException {
 		return ResponseEntity.ok().body(customerService.getCustomerDetailsByEmail(email));
 	}
-	
-	@RequestMapping(value = HttpMappings.CUSTOMER+"/all", method = RequestMethod.GET)
+
+	@RequestMapping(value = HttpMappings.CUSTOMER + "/all", method = RequestMethod.GET)
 	public ResponseEntity<List<CustomerEntity>> getAllCustomersController() throws HaulersException {
 		return ResponseEntity.ok().body(customerService.getAllCustomers());
 	}
 
-	@RequestMapping(value = HttpMappings.CUSTOMER, method = RequestMethod.POST)
-	public ResponseEntity<CustomerEntity> addCustomerController(@RequestBody(required = true) CustomerEntity customer)
-			throws HaulersException {
-		customerService.addCustomer(customer);
+	@RequestMapping(value = HttpMappings.CUSTOMER_SIGNUP, method = RequestMethod.POST)
+	public ResponseEntity<CustomerEntity> customerSignUpController(
+			@RequestBody(required = true) CustomerEntity customer, String password) throws HaulersException {
+		customerService.addCustomer(customer, password);
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
 	}
-	
+
 	@RequestMapping(value = HttpMappings.CUSTOMER_UPDATE_LOC, method = RequestMethod.POST)
-	public ResponseEntity<CustomerEntity> updateCustomerLocationController(@RequestParam(required = true) String email, @RequestParam(required = true) double[] newLocation)
-			throws HaulersException {
+	public ResponseEntity<CustomerEntity> updateCustomerLocationController(@RequestParam(required = true) String email,
+			@RequestParam(required = true) double[] newLocation) throws HaulersException {
 		customerService.updateCustomerLocation(email, newLocation);
 		return ResponseEntity.ok().body(null);
 	}
-	
-	
+
 }
