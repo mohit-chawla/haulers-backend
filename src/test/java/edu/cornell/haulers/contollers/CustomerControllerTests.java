@@ -71,7 +71,7 @@ public class CustomerControllerTests {
 		RequestBuilder requestBuilder = post(HttpMappings.CUSTOMER).with(csrf())
 				.content(objectMapper.writeValueAsString(validCustomer))
 				.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-		mvc.perform(requestBuilder).andExpect(status().isOk());
+		mvc.perform(requestBuilder).andExpect(status().is2xxSuccessful());
 	}
 
 	@Test
