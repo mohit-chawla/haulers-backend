@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metric;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import edu.cornell.haulers.entity.DriverEntity;
@@ -23,13 +27,13 @@ public class JobService {
 	@Autowired
 	JobsRepository jobsRepository;
 
-	public DriverEntity addNewJob(String customerEmail, JobRequest jobRequest) throws HaulersException {
-		// Find a driver
-		// match them
-		// TODO: what if no driver can be found
+	public DriverEntity addNewJob(String customerEmail, double[] customerLocation, JobRequest jobRequest) throws HaulersException {
+		//Find a driver
+		//match them
+		//TODO: what if no driver can be found
 		// return the match
-		List<DriverEntity> availableDrivers = driverRepository.findByAvailableTrue();
-		if (availableDrivers.isEmpty()) {
+		List<DriverEntity> availableDrivers = driverRepository.findByLocationNearAndAvailableTrue(new Point(customerLocation[0], customerLocation[1]), new Distance(100, Metrics.KILOMETERS));
+		if(availableDrivers.isEmpty()){
 			throw new HaulersException(new ErrorMessage("No Driver available!"));
 		} else {
 			// create new job entitiy;

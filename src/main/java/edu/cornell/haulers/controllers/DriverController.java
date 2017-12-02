@@ -40,5 +40,12 @@ public class DriverController extends HaulersExceptionHandlers {
 		driverService.addDriver(driver);
 		return ResponseEntity.ok().body(null);
 	}
+	
+	@RequestMapping(value = HttpMappings.DRIVER_UPDATE_LOC, method = RequestMethod.POST)
+	public ResponseEntity<DriverEntity> updateDriverLocationController(@RequestParam(required = true) String email, @RequestParam(required = true) double[] newLocation)
+			throws HaulersException {
+		driverService.updateCustomerLocation(email, newLocation);
+		return ResponseEntity.ok().body(null);
+	}
 
 }

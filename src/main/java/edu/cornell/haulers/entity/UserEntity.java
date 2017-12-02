@@ -25,6 +25,9 @@ public class UserEntity {
 
 	private String phone;
 
+	@Indexed
+	private double[] location;
+
 	public ObjectId getId() {
 		return id;
 	}
@@ -63,6 +66,14 @@ public class UserEntity {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public double[] getLocation() {
+		return location;
+	}
+
+	public void setLocation(double[] location) {
+		this.location = location;
 	}
 
 }

@@ -43,5 +43,14 @@ public class DriverService {
 		}
 		return drivers;
 	}
+	
+	public void updateCustomerLocation(String email, double[] newLocation) throws HaulersException {
+		DriverEntity driver = driverRepository.findByEmail(email);;
+		if(driver == null){
+			throw new HaulersException(new ErrorMessage("No customers in database!"));
+		}
+		driver.setLocation(newLocation);
+		driverRepository.save(driver);
+	}
 
 }

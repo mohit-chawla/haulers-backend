@@ -9,5 +9,6 @@ public class DatabaseMappings {
 	public static final String DB_CUSTOMERS = DB + "_customers";
 	public static final String DB_JOBS = DB + "_jobs";
 	public static final String DB_AUTH = DB + "_auth";
+	public static final String DB_LOCATIONS = DB + "_locations";
 
 }

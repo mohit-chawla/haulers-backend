@@ -3,6 +3,7 @@ package edu.cornell.haulers.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +39,15 @@ public class CustomerController extends HaulersExceptionHandlers {
 	public ResponseEntity<CustomerEntity> addCustomerController(@RequestBody(required = true) CustomerEntity customer)
 			throws HaulersException {
 		customerService.addCustomer(customer);
+		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+	}
+	
+	@RequestMapping(value = HttpMappings.CUSTOMER_UPDATE_LOC, method = RequestMethod.POST)
+	public ResponseEntity<CustomerEntity> updateCustomerLocationController(@RequestParam(required = true) String email, @RequestParam(required = true) double[] newLocation)
+			throws HaulersException {
+		customerService.updateCustomerLocation(email, newLocation);
 		return ResponseEntity.ok().body(null);
 	}
+	
+	
 }

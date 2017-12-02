@@ -37,9 +37,10 @@ public class JobController extends HaulersExceptionHandlers {
 	 * @throws HaulersException
 	 */
 	@RequestMapping(value = "/job", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<DriverEntity> postNewJobController(@RequestParam(required = true) String userEmail,
+	public ResponseEntity<DriverEntity> postNewJobController(@RequestParam(required = true) String customerEmail,
+			@RequestParam(required = true) double[] customerLocation,
 			@RequestBody(required = true) JobRequest jobRequest) throws HaulersException {
-		DriverEntity driver = jobService.addNewJob(userEmail, jobRequest);
+		DriverEntity driver = jobService.addNewJob(customerEmail, customerLocation, jobRequest);
 		return ResponseEntity.ok().body(driver);
 	}
 

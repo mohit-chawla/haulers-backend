@@ -14,6 +14,8 @@ public class TestDataGenerator {
 		customer.setFirstName("k");
 		customer.setLastName("last anme");
 		customer.setPhone("929");
+		double[] location = {1,2};
+		customer.setLocation(location );
 		return customer;
 	}
 	
