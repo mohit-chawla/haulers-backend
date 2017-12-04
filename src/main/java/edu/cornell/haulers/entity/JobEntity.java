@@ -1,5 +1,7 @@
 package edu.cornell.haulers.entity;
 
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,6 +14,28 @@ public class JobEntity extends JobRequest {
 
 	@Indexed(unique = false)
 	String customerEmail;
+
+	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+	double[] startLocation;
+
+	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+	double[] endLocation;
+
+	public double[] getStartLocation() {
+		return startLocation;
+	}
+
+	public void setStartLocation(double[] startLocation) {
+		this.startLocation = startLocation;
+	}
+
+	public double[] getEndLocation() {
+		return endLocation;
+	}
+
+	public void setEndLocation(double[] endLocation) {
+		this.endLocation = endLocation;
+	}
 
 	String status;
 

@@ -10,6 +10,7 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
+import edu.cornell.haulers.dto.JobRequestDto;
 import edu.cornell.haulers.entity.DriverEntity;
 import edu.cornell.haulers.entity.JobEntity;
 import edu.cornell.haulers.entity.JobRequest;
@@ -27,12 +28,13 @@ public class JobService {
 	@Autowired
 	JobsRepository jobsRepository;
 
-	public DriverEntity addNewJob(String customerEmail, double[] customerLocation, JobRequest jobRequest) throws HaulersException {
+	public DriverEntity addNewJob(String customerEmail, JobRequestDto jobRequestDto) throws HaulersException {
 		//Find a driver
 		//match them
 		//TODO: what if no driver can be found
 		// return the match
-		List<DriverEntity> availableDrivers = driverRepository.findByLocationNearAndAvailableTrue(new Point(customerLocation[0], customerLocation[1]), new Distance(10000, Metrics.KILOMETERS));
+		//TODO:
+		List<DriverEntity> availableDrivers = driverRepository.findByLocationNearAndAvailableTrue(new Point(jobRequestDto.getStartLocation().getLatitude(), jobRequestDto.getStartLocation().getLatitude()), new Distance(10000, Metrics.KILOMETERS));
 		for(DriverEntity driver: availableDrivers) {
 			System.out.println(driver.toString());
 		}
@@ -42,11 +44,16 @@ public class JobService {
 			// create new job entitiy;
 			DriverEntity chosenDriver = availableDrivers.get(0);
 			JobEntity entity = new JobEntity();
-			entity.setCapacity(jobRequest.getCapacity());
-			entity.setDescription(jobRequest.getDescription());
-			entity.setPrice(jobRequest.getPrice());
-			entity.setStart(jobRequest.getStart());
-			entity.setEnd(jobRequest.getEnd());
+			entity.setCapacity(jobRequestDto.getCapacity());
+			entity.setDescription(jobRequestDto.getDescription());
+			entity.setPrice(jobRequestDto.getPrice());
+			entity.setStart(jobRequestDto.getStart());
+			entity.setEnd(jobRequestDto.getEnd());
+			double[] startLocation = {jobRequestDto.getStartLocation().getLatitude(),jobRequestDto.getStartLocation().getLongitude()};
+			double[] endLocation = {jobRequestDto.getEndLocation().getLatitude(),jobRequestDto.getEndLocation().getLongitude()};
+			
+			entity.setStartLocation(startLocation);
+			entity.setEndLocation(endLocation);
 			entity.setId(new ObjectId());
 			entity.setCustomerEmail(customerEmail);
 			entity.setDriverEmail(chosenDriver.getEmail()); // TODO: replace

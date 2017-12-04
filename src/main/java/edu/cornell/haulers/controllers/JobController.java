@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.cornell.haulers.dto.JobRequestDto;
 import edu.cornell.haulers.entity.DriverEntity;
 import edu.cornell.haulers.entity.JobEntity;
 import edu.cornell.haulers.entity.JobRequest;
@@ -38,9 +39,9 @@ public class JobController extends HaulersExceptionHandlers {
 	 */
 	@RequestMapping(value = "/job", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<DriverEntity> postNewJobController(@RequestParam(required = true) String customerEmail,
-			@RequestParam(required = true) double[] customerLocation,
-			@RequestBody(required = true) JobRequest jobRequest) throws HaulersException {
-		DriverEntity driver = jobService.addNewJob(customerEmail, customerLocation, jobRequest);
+
+			@RequestBody(required = true) JobRequestDto jobRequestDto) throws HaulersException {
+		DriverEntity driver = jobService.addNewJob(customerEmail, jobRequestDto);
 		return ResponseEntity.ok().body(driver);
 	}
 

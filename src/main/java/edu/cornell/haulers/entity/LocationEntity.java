@@ -1,31 +1,25 @@
 package edu.cornell.haulers.entity;
 
-import java.io.Serializable;
-import java.util.Arrays;
+public class LocationEntity {
 
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+	double latitude;
 
-import edu.cornell.haulers.constants.DatabaseMappings;
+	double longitude;
 
-@Document(collection = DatabaseMappings.DB_LOCATIONS)
-public class LocationEntity implements Serializable{
-	private String id;
-	private String subject;
-
-	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
-	private double[] location;
-
-	public LocationEntity(final String subject, final double[] location) {
-		this.subject = subject;
-		this.location = location;
+	public double getLatitude() {
+		return latitude;
 	}
 
-	@Override
-	public String toString() {
-		return "LocationEntity [id=" + id + ", subject=" + subject + ", location=" + Arrays.toString(location) + "]";
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
 }
