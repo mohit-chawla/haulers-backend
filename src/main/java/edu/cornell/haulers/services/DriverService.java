@@ -50,6 +50,7 @@ public class DriverService {
 		System.err.println(location[1]);
 		ObjectId id = new ObjectId();
 		driver.setId(id);
+		driver.setAvailable(true);
 		DriverEntity saved = driverRepository.save(driver);
 		if (saved == null) {
 			// TODO: log here
