@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import edu.cornell.haulers.entity.LocationEntity;
 import edu.cornell.haulers.entity.LocationEntry;
-import edu.cornell.haulers.repositories.LocationRepository;
 import org.springframework.http.HttpStatus;
 
 
