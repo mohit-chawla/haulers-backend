@@ -1,9 +1,17 @@
 package edu.cornell.haulers.entity;
 
+import java.util.Date;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import edu.cornell.haulers.constants.JobStatus;
 
 /**
  * @author mohitchawla
@@ -21,6 +29,35 @@ public class JobEntity extends JobRequest {
 	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
 	double[] endLocation;
 
+	JobStatus status;
+
+	@Indexed(unique = false)
+	String driverEmail;
+
+	public String getCustomerEmail() {
+		return customerEmail;
+	}
+
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
+	}
+
+	public JobStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(JobStatus status) {
+		this.status = status;
+	}
+
+	public String getDriverEmail() {
+		return driverEmail;
+	}
+
+	public void setDriverEmail(String driverEmail) {
+		this.driverEmail = driverEmail;
+	}
+
 	public double[] getStartLocation() {
 		return startLocation;
 	}
@@ -35,35 +72,6 @@ public class JobEntity extends JobRequest {
 
 	public void setEndLocation(double[] endLocation) {
 		this.endLocation = endLocation;
-	}
-
-	String status;
-
-	@Indexed(unique = false)
-	String driverEmail;
-
-	public String getCustomerEmail() {
-		return customerEmail;
-	}
-
-	public void setCustomerEmail(String customerEmail) {
-		this.customerEmail = customerEmail;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getDriverEmail() {
-		return driverEmail;
-	}
-
-	public void setDriverEmail(String driverEmail) {
-		this.driverEmail = driverEmail;
 	}
 
 }

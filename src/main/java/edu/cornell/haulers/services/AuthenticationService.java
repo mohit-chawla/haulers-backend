@@ -37,7 +37,7 @@ public class AuthenticationService implements UserDetailsService {
 			System.err.println("User not found in db");
 			throw new UsernameNotFoundException("User not found");
 		} else {
-			System.err.println("User found:" + username);
+			System.err.println("User found:" + username+"pass:"+user.getPassword());
 			Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 			GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
 			grantedAuthorities.add(grantedAuthority);
