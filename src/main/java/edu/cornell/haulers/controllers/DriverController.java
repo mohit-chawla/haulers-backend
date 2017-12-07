@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.cornell.haulers.constants.HttpMappings;
 import edu.cornell.haulers.entity.DriverEntity;
@@ -48,6 +49,20 @@ public class DriverController extends HaulersExceptionHandlers {
 			@RequestParam(required = true) double[] newLocation) throws HaulersException {
 		driverService.updateCustomerLocation(email, newLocation);
 		return ResponseEntity.ok().body(null);
+	}
+	
+	@RequestMapping(value = HttpMappings.DRIVER+"/images", method=RequestMethod.POST)
+	public ResponseEntity<DriverEntity> updateDriverImage(
+			@RequestParam(value = "image", required = true) MultipartFile image,
+			@RequestParam(value = "email", required = true) String email) throws HaulersException {
+		driverService.updateDriverImage(image, email);
+		return ResponseEntity.ok().body(null);
+	}
+	@RequestMapping(value = HttpMappings.DRIVER+"/images", method=RequestMethod.GET)
+	public ResponseEntity<String> getImageURL(@RequestParam(value = "email", required = true) String email)
+			throws HaulersException {
+		String imageUrl = driverService.getImageForDriver(email);
+		return ResponseEntity.ok().body(imageUrl);
 	}
 
 }
