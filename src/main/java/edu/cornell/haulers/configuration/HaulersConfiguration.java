@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.session.data.redis.config.ConfigureRedisAction;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -32,5 +33,10 @@ public class HaulersConfiguration {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("edu.cornell.haulers.controllers")).build();
 
+	}
+	
+	@Bean
+	public static ConfigureRedisAction configureRedisAction() {
+	    return ConfigureRedisAction.NO_OP;
 	}
 }

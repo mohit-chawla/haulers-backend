@@ -33,8 +33,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(authenticationService);
-		// auth.inMemoryAuthentication().withUser("mohit").password("pass").roles("USER");
+//		 auth.userDetailsService(authenticationService).and().inMemoryAuthentication().withUser("kripa").password("KRIPA").roles("USER");
+		 auth.userDetailsService(authenticationService);
+//		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER");
 	}
 
 	@Override
@@ -43,10 +44,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().anyRequest().authenticated().and().requestCache().requestCache(new NullRequestCache())
 				.and().httpBasic();
 	}
-	
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	    web.ignoring().antMatchers(HttpMappings.CUSTOMER_SIGNUP);
-	    web.ignoring().antMatchers(HttpMappings.DRIVER_SIGNUP);
+		web.ignoring().antMatchers("/health");
+		web.ignoring().antMatchers("/trace");
+		web.ignoring().antMatchers(HttpMappings.CUSTOMER_SIGNUP);
+		web.ignoring().antMatchers(HttpMappings.DRIVER_SIGNUP);
 	}
 }

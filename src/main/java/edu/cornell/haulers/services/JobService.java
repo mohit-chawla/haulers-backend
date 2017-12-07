@@ -10,7 +10,9 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
+import edu.cornell.haulers.constants.JobStatus;
 import edu.cornell.haulers.dto.JobRequestDto;
+import edu.cornell.haulers.dto.JobResponseDto;
 import edu.cornell.haulers.entity.DriverEntity;
 import edu.cornell.haulers.entity.JobEntity;
 import edu.cornell.haulers.entity.JobRequest;
@@ -29,16 +31,20 @@ public class JobService {
 	JobsRepository jobsRepository;
 
 	public DriverEntity addNewJob(String customerEmail, JobRequestDto jobRequestDto) throws HaulersException {
-		//Find a driver
-		//match them
-		//TODO: what if no driver can be found
+		// Find a driver
+		// match them
+		// TODO: what if no driver can be found
 		// return the match
-		//TODO:
-		List<DriverEntity> availableDrivers = driverRepository.findByLocationNearAndAvailableTrue(new Point(jobRequestDto.getStartLocation().getLatitude(), jobRequestDto.getStartLocation().getLatitude()), new Distance(10000, Metrics.KILOMETERS));
-		for(DriverEntity driver: availableDrivers) {
+		// TODO:
+		List<DriverEntity> availableDrivers = driverRepository
+				.findByLocationNearAndAvailableTrue(
+						new Point(jobRequestDto.getStartLocation().getLatitude(),
+								jobRequestDto.getStartLocation().getLatitude()),
+						new Distance(10000, Metrics.KILOMETERS));
+		for (DriverEntity driver : availableDrivers) {
 			System.out.println(driver.toString());
 		}
-		if(availableDrivers.isEmpty()){
+		if (availableDrivers.isEmpty()) {
 			throw new HaulersException(new ErrorMessage("No Driver available!"));
 		} else {
 			// create new job entitiy;
@@ -49,12 +55,14 @@ public class JobService {
 			entity.setPrice(jobRequestDto.getPrice());
 			entity.setStart(jobRequestDto.getStart());
 			entity.setEnd(jobRequestDto.getEnd());
-			double[] startLocation = {jobRequestDto.getStartLocation().getLatitude(),jobRequestDto.getStartLocation().getLongitude()};
-			double[] endLocation = {jobRequestDto.getEndLocation().getLatitude(),jobRequestDto.getEndLocation().getLongitude()};
-			
+			entity.setStatus(JobStatus.REQUESTED);
+			double[] startLocation = { jobRequestDto.getStartLocation().getLatitude(),
+					jobRequestDto.getStartLocation().getLongitude() };
+			double[] endLocation = { jobRequestDto.getEndLocation().getLatitude(),
+					jobRequestDto.getEndLocation().getLongitude() };
 			entity.setStartLocation(startLocation);
 			entity.setEndLocation(endLocation);
-			entity.setId(new ObjectId());
+			entity.setId(new ObjectId().toString());
 			entity.setCustomerEmail(customerEmail);
 			entity.setDriverEmail(chosenDriver.getEmail()); // TODO: replace
 															// with better
@@ -92,6 +100,20 @@ public class JobService {
 			return jobs;
 		}
 
+	}
+
+	public void respondToJob(JobResponseDto jobResponseDto) throws HaulersException {
+		JobEntity job = jobsRepository.findOne(jobResponseDto.getJobId());
+		System.err.println("Searching for job with id:"+jobResponseDto.getJobId());
+		if (job == null) {
+			throw new HaulersException(new ErrorMessage("No job with given job id"));
+		} else {
+			job.setStatus(JobStatus.valueOf(jobResponseDto.getResponse()));
+			JobEntity saved = jobsRepository.save(job);
+			if(saved==null){
+				throw new HaulersException(new ErrorMessage("Error updating job status"));
+			}
+		}
 	}
 
 }

@@ -5,7 +5,8 @@ import edu.cornell.haulers.entity.JobEntity;
 import java.lang.String;
 import java.util.List;
 
-public interface JobsRepository extends MongoRepository<JobEntity, Integer> {
+public interface JobsRepository extends MongoRepository<JobEntity, String> {
+
 	List<JobEntity> findByCustomerEmail(String customerEmail);
 
 	List<JobEntity> findByDriverEmail(String driveremail);
