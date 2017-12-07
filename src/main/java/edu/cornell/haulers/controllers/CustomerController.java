@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.cornell.haulers.constants.HttpMappings;
 import edu.cornell.haulers.entity.CustomerEntity;
@@ -50,6 +51,21 @@ public class CustomerController extends HaulersExceptionHandlers {
 			@RequestParam(required = true) double[] newLocation) throws HaulersException {
 		customerService.updateCustomerLocation(email, newLocation);
 		return ResponseEntity.ok().body(null);
+	}
+
+	@RequestMapping(value = HttpMappings.CUSTOMER + "/images", method = RequestMethod.POST)
+	public ResponseEntity<CustomerEntity> updateCustomerImage(
+			@RequestParam(value = "image", required = true) MultipartFile image,
+			@RequestParam(value = "email", required = true) String email) throws HaulersException {
+		customerService.updateCustomerImage(image, email);
+		return ResponseEntity.ok().body(null);
+	}
+
+	@RequestMapping(value = HttpMappings.CUSTOMER + "/images", method = RequestMethod.GET)
+	public ResponseEntity<String> getImageURL(@RequestParam(value = "email", required = true) String email)
+			throws HaulersException {
+		String imageUrl = customerService.getImageForCustomer(email);
+		return ResponseEntity.ok().body(imageUrl);
 	}
 
 }

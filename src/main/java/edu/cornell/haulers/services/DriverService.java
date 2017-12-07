@@ -5,11 +5,15 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.cornell.haulers.entity.DriverEntity;
+import edu.cornell.haulers.entity.ImageEntity;
+import edu.cornell.haulers.entity.UploadDetails;
 import edu.cornell.haulers.exceptions.ErrorMessage;
 import edu.cornell.haulers.exceptions.HaulersException;
 import edu.cornell.haulers.repositories.DriverRepository;
+import edu.cornell.haulers.repositories.ImageRepository;
 
 @Service
 public class DriverService {
@@ -19,6 +23,10 @@ public class DriverService {
 
 	@Autowired
 	AuthenticationService authenticationService;
+	@Autowired
+	private StorageService storageService;
+	@Autowired
+	private ImageRepository imageRepository;
 
 	public DriverEntity getDriverDetailsByEmail(String email) throws HaulersException {
 		DriverEntity driver = driverRepository.findByEmail(email);
@@ -67,6 +75,32 @@ public class DriverService {
 		}
 		driver.setLocation(newLocation);
 		driverRepository.save(driver);
+	}
+
+	public void updateDriverImage(MultipartFile image, String email) throws HaulersException {
+		DriverEntity driver = driverRepository.findByEmail(email);
+		if(driver!=null) {
+			UploadDetails uploadDetails = storageService.saveImageToS3(image, email);
+			if (uploadDetails != null) { // save to DB
+				ImageEntity imageEntity = new ImageEntity();
+				imageEntity.setKey(uploadDetails.getKey());
+				imageEntity.setUrl(uploadDetails.getUrl());
+				imageEntity.setEmail(email);
+				imageRepository.save(imageEntity);
+			}
+		}else {
+			throw new HaulersException(new ErrorMessage("Driver Not Found!"));
+		}
+		
+	}
+	
+	public String getImageForDriver(String email) throws HaulersException {
+		ImageEntity imageEntity = imageRepository.findByEmail(email);
+		if(imageEntity!=null) {
+			return imageEntity.getUrl(); 
+		}else {
+			throw new HaulersException(new ErrorMessage("Driver Not Found!"));
+		}
 	}
 
 }
